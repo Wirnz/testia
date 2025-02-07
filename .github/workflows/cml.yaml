@@ -1,20 +1,13 @@
-name: model-wine-quality
+name: learn-github-actions
+run-name: ${{ github.actor }} is learning GitHub Actions
 on: [push]
 jobs:
-  run:
+  check-bats-version:
     runs-on: ubuntu-latest
-    container: ghcr.io/iterative/cml:0-dvc2-base1
     steps:
-     - uses: actions/checkout@v3
-     - uses: iterative/setup-tools@v1
-     - name: cml_run
-       env:
-          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-       run: |
-          # Your ML workflow goes here
-          pip install -r requirements.txt
-          python train.py
-
-          echo "MODEL METRICS"
-          echo "yes"
-          cat metrics.txt
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install -g bats
+      - run: bats -v
